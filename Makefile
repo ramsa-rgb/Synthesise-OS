@@ -3,7 +3,10 @@ all : ARMv6
 ARMv6_SRCDRIVERS = src/boot/ARMv6/drivers
 ARMv6_OBJDRIVERS = obj/boot/ARMv6/drivers
 
-ARMv6 : ARMv6_BOOT
+ARMv6 : ARMv6_INIT ARMv6_BOOT
+	copy sdcard\*.* F:
+
+ARMv6_INIT : 
 	-mkdir bin
 	-mkdir sdcard
 	-mkdir sdcard\overlays
@@ -18,8 +21,6 @@ ARMv6 : ARMv6_BOOT
 	-mkdir obj\boot\ARMv6\drivers\memory
 	-mkdir obj\boot\ARMv6\drivers\uart
 
-	copy sdcard\*.* F:
-	
 ARMv6_BOOT :
 	make -C src/boot/ARMv6/drivers/memory
 	make -C src/boot/ARMv6/drivers/io
