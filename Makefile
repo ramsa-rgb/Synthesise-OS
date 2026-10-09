@@ -4,6 +4,20 @@ ARMv6_SRCDRIVERS = src/boot/ARMv6/drivers
 ARMv6_OBJDRIVERS = obj/boot/ARMv6/drivers
 
 ARMv6 : ARMv6_BOOT
+	-mkdir bin
+	-mkdir sdcard
+	-mkdir sdcard\overlays
+
+	-mkdir obj\boot
+	-mkdir obj\boot\ARMv6
+	-mkdir obj\boot\ARMv6\x86
+	-mkdir obj\boot\ARMv6\x86_64
+
+	-mkdir obj\boot\ARMv6\drivers
+	-mkdir obj\boot\ARMv6\drivers\io
+	-mkdir obj\boot\ARMv6\drivers\memory
+	-mkdir obj\boot\ARMv6\drivers\uart
+
 	copy sdcard\*.* F:
 	
 ARMv6_BOOT :
