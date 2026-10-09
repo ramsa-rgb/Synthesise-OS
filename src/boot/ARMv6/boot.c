@@ -14,6 +14,10 @@ void main() {
 
     EnableMMU();
 
+    __asm__ __volatile__ (
+        "ldr sp, =0x027fffffc" // memory.c에서 힙 갯수 새는거 뺀거.
+    );
+
     gpiomode(4, OUTPUT);
     gpiomode(17, OUTPUT);
 
