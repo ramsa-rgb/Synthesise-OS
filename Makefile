@@ -30,3 +30,10 @@ ARMv6_BOOT :
 		$(ARMv6_OBJDRIVERS)/memory/memory.o $(ARMv6_OBJDRIVERS)/memory/mmu.o \
 		-o obj/boot/ARMv6/SBOOT.img
 	copy obj\boot\ARMv6\SBOOT.img sdcard /y
+
+clean:
+	del obj\boot\ARMv6\*.* /F /Q
+	del obj\boot\ARMv6\drivers\*.* /F /Q
+	del obj\boot\ARMv6\drivers\io\*.* /F /Q
+	del obj\boot\ARMv6\drivers\memory\*.* /F /Q
+	del obj\boot\ARMv6\drivers\uart\*.* /F /Q
