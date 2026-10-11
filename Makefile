@@ -24,12 +24,16 @@ ARMv6_INIT :
 ARMv6_BOOT :
 	make -C src/boot/ARMv6/drivers/memory
 	make -C src/boot/ARMv6/drivers/io
+	make -C src/boot/ARMv6/drivers/uart
+	make -C src/boot/ARMv6/drivers/etc
 
-	arm-none-eabi-gcc -mlittle-endian -mcpu=arm1176jzf-s -mfpu=vfpv2 -mfloat-abi=hard -nostdlib --sysroot=src/boot/ARMv6 \
+	arm-none-eabi-gcc -mlittle-endian -mcpu=arm1176jzf-s -mfpu=vfpv2 -mfloat-abi=hard -nostdlib --sysroot=src/boot/ARMv6 -T linker.ld \
 		src/boot/ARMv6/main.s src/boot/ARMv6/boot.c \
 		$(ARMv6_OBJDRIVERS)/io/gpio.o \
 		$(ARMv6_OBJDRIVERS)/memory/memory.o $(ARMv6_OBJDRIVERS)/memory/mmu.o \
-		-o obj/boot/ARMv6/SBOOT.img
+		$(ARMv6_OBJDRIVERS)/uart/pl011.o $(ARMv6_OBJDRIVERS)/uart/mini.o $(ARMv6_OBJDRIVERS)/uart/uart.o \
+		$(ARMv6_OBJDRIVERS)/etc/delay.o $(ARMv6_OBJDRIVERS)/etc/math.o $(ARMv6_OBJDRIVERS)/etc/string.o \
+		-o obj/boot/ARMv6/SBOOT.img -lgcc
 	copy obj\boot\ARMv6\SBOOT.img sdcard /y
 
 clean:

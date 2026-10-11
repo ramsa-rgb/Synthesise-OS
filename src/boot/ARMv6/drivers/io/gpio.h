@@ -17,21 +17,30 @@
 #define GPLEV0 0x7e200034 - MEMOFFSET
 #define GPLEV1 0x7e200038 - MEMOFFSET
 
+#define GPPUD 0x7E200094  - MEMOFFSET
+#define GPPUDCLK0 0x7E200098  - MEMOFFSET
+#define GPPUDCLK1 0x7E20009C  - MEMOFFSET
+
 #define INPUT 0b000
 #define OUTPUT 0b001
-#define AF0 0b100
-#define AF1 0b101
-#define AF2 0b110
-#define AF3 0b111
-#define AF4 0b011
-#define AF5 0b010
+#define ALT0 0b100
+#define ALT1 0b101
+#define ALT2 0b110
+#define ALT3 0b111
+#define ALT4 0b011
+#define ALT5 0b010
 
 #define ENABLE 1
 #define DISABLE 0
+
+#define PullDisable 0
+#define PullDown 1
+#define PullUp 2
 
 void gpiomode(unsigned int gpio, unsigned int mode);
 void gpioenable(unsigned int gpio);
 void gpiodisable(unsigned int gpio);
 unsigned int gpioread(unsigned int gpio);
+void gpiopullsettings(unsigned short gpio, unsigned short Settings);
 
 #endif

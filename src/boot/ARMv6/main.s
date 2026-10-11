@@ -1,9 +1,11 @@
 .global _start
+
 .global main
+.global start
 
 .section .text
 _start:
-    LDR sp, =0x8000 // 커널 스택은 8KB로
+    LDR sp, =0x02800000 // 커널 스택은 8KB로
     
     LDR r0, =0x0FFFC000 // 커널 영역
     LDR r1, =0x1FFFC000 // 유저 영역
@@ -18,7 +20,11 @@ _start:
     
     MCR p15, 0, r0, c2, c0, 2 // r0을 TTBCR에
 
+    BL start
+
+    LDR sp, =0x02800000
+
     BL main
 
-.:
-    b .
+loop:
+    b loop

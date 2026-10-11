@@ -4,7 +4,7 @@
 #define KERNEL_TABLE 0x0FFFC000
 #define USER_TABLE 0x1FFFC000
 
-#define MMU_SECURE (1 << 19) // Secure 영역
+#define MMU_NON_SECURE (1 << 19) // Secure 영역
 #define MMU_XN (1 << 4) // 실행 방지
 
 #define MMU_AP_KERNEL (1 << 10) // 커널 엑세스 권한

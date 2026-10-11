@@ -1,4 +1,5 @@
 #include "gpio.h"
+#include "..\etc\delay.h"
 
 void gpiomode(unsigned int gpio, unsigned int mode) {
     unsigned int base = 0;
@@ -55,4 +56,20 @@ unsigned int gpioread(unsigned int gpio) {
     } else {
         return (mem32read(GPLEV1) >> (gpio-32)) & (0x1);
     }
+}
+
+void gpiopullsettings(unsigned short gpio, unsigned short Settings) {
+    mem32write(GPPUD, Settings);
+    Delay(150);
+
+    if (gpio < 32) {
+        mem32write(GPPUDCLK0, 1 << gpio);
+    } else {
+        mem32write(GPPUDCLK1, 1 << gpio);
+    }
+
+    Delay(150);
+    mem32write(GPPUD, 0);
+    mem32write(GPPUDCLK0, 0);
+    mem32write(GPPUDCLK1, 0);
 }

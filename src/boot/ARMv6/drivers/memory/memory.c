@@ -20,65 +20,89 @@ void mem8write(unsigned int Address, unsigned char Data) {
     *(volatile unsigned char*)Address = Data;
 }
 
-void kfree(unsigned int Heap) {
-    HeapBlock FirstHeap = {0};
-    FirstHeap.Address = mem32read(Heap);
-    FirstHeap.Size = mem32read(Heap+4);
-    FirstHeap.NextHeapBlock = mem32read(Heap+8);
-    FirstHeap.IsUse = 0;
+void kfree(unsigned int* Heap) {
+    unsigned int Meta = mem32read((unsigned int)Heap - 4);
 
-    mem32write(Heap, FirstHeap.Address);
-    mem32write(Heap+4, FirstHeap.Size);
-    mem32write(Heap+8, FirstHeap.NextHeapBlock);
-    mem32write(Heap+12, FirstHeap.IsUse);
+    Meta &= 0xFFFEFFFF;
+
+    mem32write((unsigned int)Heap - 4, Meta);
 }
 
-unsigned int* kmalloc(unsigned int Size) {
-    unsigned int heapcount = mem32read(0x027fffffc);
-    HeapBlock NewHeapBlock = {0};
-    NewHeapBlock.IsUse = 1;
+unsigned int* kmalloc(unsigned short Size) {
+    // 맨 앞 힙 블록 읽기.
+    // unsigned int MetaData;
+    // 0:15 Size
+    // 16:31 Flags
 
-    // Heap 구조
+    unsigned int HeapPointer = HeapBase;
+    unsigned int FirstMeta = 0;
 
-    // HeapBlock
-    // Heap 데이터
-    // ... 반복
+    unsigned short HeapSize = 0;
+    unsigned short HeapFlags = 0;
 
-    if (heapcount == 0) {
-        NewHeapBlock.Address = HeapBase;
-        NewHeapBlock.Size = Size;
-        NewHeapBlock.NextHeapBlock = 0;
+    while (1) {
+        FirstMeta = mem32read(HeapPointer);
+
+        HeapSize = (FirstMeta & 0xFFFF);
+        HeapFlags = ((FirstMeta >> 16) & 0xFFFF);
         
-        mem32write(HeapBase, NewHeapBlock.Address);
-        mem32write(HeapBase+4, NewHeapBlock.Size);
-        mem32write(HeapBase+8, NewHeapBlock.NextHeapBlock);
-        mem32write(HeapBase+12, NewHeapBlock.IsUse);
+        if (HeapSize == 0) {
+            // 아무것도 없다면 여기에 HeapBlock 생성
+            unsigned int Meta = 0;
+            Meta |= Size;
+            Meta |= (1 << 16);
 
-        for (int i = 0; i<Size; i++) {
-            // 1바이트
-            mem8write(HeapBase+4+i, 0);
-        }
-    } else {
-        // 처음 구간을 찾음.
-        HeapBlock FirstHeap = {0};
-        FirstHeap.Address = mem32read(HeapBase);
-        FirstHeap.Size = mem32read(HeapBase+4);
-        FirstHeap.NextHeapBlock = mem32read(HeapBase+8);
-        FirstHeap.IsUse = mem32read(HeapBase+12);
+            mem32write(HeapPointer, Meta);
 
-        if (FirstHeap.IsUse == 0) {
-            // Free 됬다면 이 구간 사용.
-            // 이 크기를 넘는다면 그 다음 빈 공간이 나올 때 까지 순회.
-            if (FirstHeap.Size < Size) {
+            return (unsigned int*)(HeapPointer + 4); // 진짜 데이터만 반환.
+        } else {
+            // 있다면 쓰고 있는지 확인
+            if ((HeapFlags & 1) == 0) {
+                // 안쓰고 있다면
+                // 메타데이터 포함
+                if (HeapSize >= (Size + 4)) {
+                    // 남은 공간이 크다면
+                    // 남은 공간이 크고, 이 힙 데이터가 들어가고 남은 데이터가 8바이트이라면
+                    if ((HeapSize - (Size + 4)) >= 8) {
+                        // 크다면 작은 새 공간 창출.
 
+                        // 먼저 요청한 힙
+                        unsigned int Meta = 0;
+                        Meta |= Size;
+                        Meta |= (1 << 16);
+
+                        mem32write(HeapPointer, Meta);
+
+                        // 새 힙
+                        unsigned int BMeta = 0;
+                        BMeta |= (HeapSize - Size) - 4;
+                        BMeta |= (0 << 16);
+
+                        mem32write(HeapPointer + Size + 4, BMeta);                        
+
+                        return (unsigned int*)(HeapPointer + 4); // 진짜 데이터만 반환.
+                    } else {
+                        // 작다면 이 힙이 다 먹기
+                        unsigned int Meta = 0;
+                        Meta |= HeapSize;
+                        Meta |= (1 << 16);
+
+                        mem32write(HeapPointer, Meta);
+
+                        return (unsigned int*)(HeapPointer + 4); // 진짜 데이터만 반환.
+                    }
+                } else {
+                    // 다음 블록
+                    HeapPointer += HeapSize + 4;
+                }
             } else {
-                FirstHeap.IsUse = 1;
-
-                mem32write(HeapBase, NewHeapBlock.Address);
-                mem32write(HeapBase+4, NewHeapBlock.Size);
-                mem32write(HeapBase+8, NewHeapBlock.NextHeapBlock);
-                mem32write(HeapBase+12, NewHeapBlock.IsUse);
+                // 쓰고 있다면
+                HeapPointer += HeapSize + 4;
             }
         }
     }
+}
+
+unsigned short GetHeapSize(unsigned int* Heap) {
+    return (unsigned short)(mem32read((unsigned int)Heap - 4) & 0xFFFF);
 }

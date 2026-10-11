@@ -54,8 +54,11 @@ void CreateUserPage(unsigned int VirtualAddress, unsigned int RealAddress, unsig
 void EnableMMU() {
     __asm__ __volatile__ (
         "LDR r0, =0x0\n"
-        "MCR p15, 0, r0, c8, c7, 0\n" // MVA 초기화
+        "MCR p15, 0, r0, c7, c10, 0\n" // 클린
 
+        "MCR p15, 0, r0, c7, c10, 4\n" // DSB
+        
+        "MCR p15, 0, r0, c8, c7, 0\n" // MVA 초기화
         "MCR p15, 0, r0, c7, c7, 0\n" // 캐시 초기화 (명령어와 데이터)
 
         "LDR r0, =0x55555555\n"
@@ -64,6 +67,8 @@ void EnableMMU() {
         "MRC p15, 0, r0, c1, c0, 0\n"
         "ORR r0, r0, #1\n"
         "MCR p15, 0, r0, c1, c0, 0\n" // MMU 활성화
+
+        "MCR p15, 0, r0, c7, c10, 4\n" // DSB
 
         "MOV r0, #0\n"
         "MCR p15, 0, r0, c7, c5, 4\n" // 파이프라인 플러시
