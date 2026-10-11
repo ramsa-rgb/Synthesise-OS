@@ -1,10 +1,11 @@
 typedef struct
 {
     unsigned short Length;
-    unsigned int* Pointer;
+    char* Pointer;
 } string;
 
 string* createstring(char* String);
+void freestring(string* str);
 
 char* stoc(string* s);
 void itos(string* s, unsigned int i);

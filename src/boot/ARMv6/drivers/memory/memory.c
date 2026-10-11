@@ -1,4 +1,5 @@
 #include "memory.h"
+#include "..\uart\uart.h"
 
 unsigned int mem32read(unsigned int Address) {
     return *(volatile unsigned int*)Address;
@@ -40,6 +41,8 @@ unsigned int* kmalloc(unsigned short Size) {
     unsigned short HeapSize = 0;
     unsigned short HeapFlags = 0;
 
+    print_c('F');
+
     while (1) {
         FirstMeta = mem32read(HeapPointer);
 
@@ -54,6 +57,7 @@ unsigned int* kmalloc(unsigned short Size) {
 
             mem32write(HeapPointer, Meta);
 
+            print_c('A');
             return (unsigned int*)(HeapPointer + 4); // 진짜 데이터만 반환.
         } else {
             // 있다면 쓰고 있는지 확인
@@ -80,6 +84,7 @@ unsigned int* kmalloc(unsigned short Size) {
 
                         mem32write(HeapPointer + Size + 4, BMeta);                        
 
+                        print_c('B');
                         return (unsigned int*)(HeapPointer + 4); // 진짜 데이터만 반환.
                     } else {
                         // 작다면 이 힙이 다 먹기
@@ -89,15 +94,18 @@ unsigned int* kmalloc(unsigned short Size) {
 
                         mem32write(HeapPointer, Meta);
 
+                        print_c('C');
                         return (unsigned int*)(HeapPointer + 4); // 진짜 데이터만 반환.
                     }
                 } else {
                     // 다음 블록
                     HeapPointer += HeapSize + 4;
+                    print_c('D');
                 }
             } else {
                 // 쓰고 있다면
                 HeapPointer += HeapSize + 4;
+                print_c('E');
             }
         }
     }

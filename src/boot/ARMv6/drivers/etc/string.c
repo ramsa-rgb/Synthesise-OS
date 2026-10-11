@@ -5,15 +5,20 @@
 // String는 항상 kmalloc된 상태 이어야 합니다.
 string* createstring(char* String) {
     unsigned short Size = GetHeapSize((unsigned int*)String);
-    string* mstring = (string*)kmalloc(4);
+    string* mstring = (string*)kmalloc(8);
     mstring->Length = Size;
-    mstring->Pointer = (unsigned int*)String;
+    mstring->Pointer = String;
 
-    return mstring;
+    return (string*)mstring;
+}
+
+void freestring(string* str) {
+    kfree((unsigned int*)str->Pointer);
+    kfree((unsigned int*)str);
 }
 
 char* stoc(string* s) {
-    return (char*)s->Pointer;
+    return s->Pointer;
 }
 
 // string의 길이는 12 이상이어야 합니다.
@@ -32,7 +37,7 @@ void itos(string* s, unsigned int i) {
 
         char number = (i % x) / y;
 
-        ((char*)s->Pointer)[n] = '0' + number;
+        ((char*)s->Pointer)[10-n] = '0' + number;
     }
     
     ((char*)s->Pointer)[11] = '\0';
