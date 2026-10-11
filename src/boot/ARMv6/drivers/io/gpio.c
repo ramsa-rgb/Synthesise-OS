@@ -28,6 +28,18 @@ void gpiomode(unsigned int gpio, unsigned int mode) {
         offset = (gpio-30)*3;
         base = GPFSEL3;
     }
+    else if (gpio >= 40 && gpio < 50)
+    {
+        // GPFSEL3
+        offset = (gpio-40)*3;
+        base = GPFSEL4;
+    }
+    else if (gpio >= 50 && gpio < 54)
+    {
+        // GPFSEL3
+        offset = (gpio-50)*3;
+        base = GPFSEL5;
+    }
 
     unsigned int GPFSELn = mem32read(base);
     GPFSELn = GPFSELn & ~(0x7 << offset);
