@@ -42,3 +42,21 @@ void itos(string* s, unsigned int i) {
     
     ((char*)s->Pointer)[11] = '\0';
 }
+void htos(string* s, unsigned int i) {
+    if (s->Length < 12) {
+        return;
+    }
+    s->Pointer[0] = '0';
+    s->Pointer[1] = 'x';
+
+    for (int n=0; n<8; n++) {
+        char number = (char)((i >> (4 * n)) & 0xF);
+
+        if (number < 10) {
+            ((char*)s->Pointer)[9-n] = '0' + number;
+        } else {
+            ((char*)s->Pointer)[9-n] = 'A' + (number - 10);
+        }
+    }
+    ((char*)s->Pointer)[11] = '\0';
+}

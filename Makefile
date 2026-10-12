@@ -29,7 +29,7 @@ ARMv6_BOOT :
 
 	arm-none-eabi-gcc -mlittle-endian -mcpu=arm1176jzf-s -mfpu=vfpv2 -mfloat-abi=hard -nostdlib --sysroot=src/boot/ARMv6 -T linker.ld \
 		src/boot/ARMv6/main.s src/boot/ARMv6/boot.c \
-		$(ARMv6_OBJDRIVERS)/io/gpio.o \
+		$(ARMv6_OBJDRIVERS)/io/gpio.o $(ARMv6_OBJDRIVERS)/io/emmc.o \
 		$(ARMv6_OBJDRIVERS)/memory/memory.o $(ARMv6_OBJDRIVERS)/memory/mmu.o \
 		$(ARMv6_OBJDRIVERS)/uart/pl011.o $(ARMv6_OBJDRIVERS)/uart/mini.o $(ARMv6_OBJDRIVERS)/uart/uart.o \
 		$(ARMv6_OBJDRIVERS)/etc/delay.o $(ARMv6_OBJDRIVERS)/etc/math.o $(ARMv6_OBJDRIVERS)/etc/string.o \

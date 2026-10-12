@@ -1,8 +1,7 @@
 #include "drivers/memory/mmu.h"
 #include "drivers/memory/memory.h"
 #include "drivers/io/gpio.h"
-#include "drivers/uart/mini.h"
-#include "drivers/uart/pl011.h"
+#include "drivers/io/emmc.h"
 #include "drivers/uart/uart.h"
 #include "drivers/etc/string.h"
 
@@ -62,9 +61,46 @@ void main() {
     Heap1[28] = '0';
     Heap1[29] = '\0';
 
+    char* Text0 = (char*)kmalloc(16);
+    char* Text1 = (char*)kmalloc(16);
+    char* Text2 = (char*)kmalloc(16);
+    char* Text3 = (char*)kmalloc(16);
+    char* Text4 = (char*)kmalloc(16);
+    string* str0 = createstring(Text0);
+    string* str1 = createstring(Text1);
+    string* str2 = createstring(Text2);
+    string* str3 = createstring(Text3);
+    string* str4 = createstring(Text4);
+
     uart_init();
+    unsigned int* List = emmc_init();
 
     print_str(Heap1);
+    print_c('\r'); 
+    print_c('\n');
+    htos(str0, List[0]);
+    htos(str1, List[1]);
+    htos(str2, List[2]);
+    htos(str3, List[3]);
+    htos(str4, List[4]);
+
+    print_str(Text0);
+    print_c('\r'); 
+    print_c('\n');
+    print_str(Text1);
+    print_c('\r'); 
+    print_c('\n');
+    print_str(Text2);
+    print_c('\r'); 
+    print_c('\n');
+    print_str(Text3);
+    print_c('\r'); 
+    print_c('\n');
+    print_str(Text4);
+    print_c('\r'); 
+    print_c('\n');
+
+    emmc_read(35704);
 
     gpiomode(4, OUTPUT);
     gpiomode(17, OUTPUT);

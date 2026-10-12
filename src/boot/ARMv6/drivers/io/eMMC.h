@@ -32,4 +32,8 @@
 #define SPI_INT_SOT 0xf0
 #define SLOTISR_VER 0xfc
 
+// 0~3 CID 4 RCA
+unsigned int* emmc_init();
+unsigned int* emmc_read(unsigned int Sector);
+
 #endif
