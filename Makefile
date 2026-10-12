@@ -13,6 +13,7 @@ ARMv6_INIT :
 	-mkdir sdcard
 	-mkdir sdcard\overlays
 
+	-mkdir obj
 	-mkdir obj\boot
 	-mkdir obj\boot\ARMv6
 	-mkdir obj\boot\ARMv6\x86
@@ -29,6 +30,7 @@ ARMv6_INIT :
 	-mkdir sdcard
 	-mkdir sdcard/overlays
 
+	-mkdir obj
 	-mkdir obj/boot
 	-mkdir obj/boot/ARMv6
 	-mkdir obj/boot/ARMv6/x86
