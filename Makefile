@@ -6,6 +6,9 @@ ARMv6_OBJDRIVERS = obj/boot/ARMv6/drivers
 ARMv6 : ARMv6_INIT ARMv6_BOOT
 	copy sdcard\*.* F:
 
+ifeq ("$(wildcard $(obj\boot))", "")
+ARMv6_INIT : 
+else
 ARMv6_INIT : 
 	-mkdir bin
 	-mkdir sdcard
@@ -20,6 +23,8 @@ ARMv6_INIT :
 	-mkdir obj\boot\ARMv6\drivers\io
 	-mkdir obj\boot\ARMv6\drivers\memory
 	-mkdir obj\boot\ARMv6\drivers\uart
+	-mkdir obj\boot\ARMv6\drivers\etc
+endif
 
 ARMv6_BOOT :
 	make -C src/boot/ARMv6/drivers/memory
@@ -29,7 +34,7 @@ ARMv6_BOOT :
 
 	arm-none-eabi-gcc -mlittle-endian -mcpu=arm1176jzf-s -mfpu=vfpv2 -mfloat-abi=hard -nostdlib --sysroot=src/boot/ARMv6 -T linker.ld \
 		src/boot/ARMv6/main.s src/boot/ARMv6/boot.c \
-		$(ARMv6_OBJDRIVERS)/io/gpio.o $(ARMv6_OBJDRIVERS)/io/emmc.o \
+		$(ARMv6_OBJDRIVERS)/io/gpio.o $(ARMv6_OBJDRIVERS)/io/mmc.o \
 		$(ARMv6_OBJDRIVERS)/memory/memory.o $(ARMv6_OBJDRIVERS)/memory/mmu.o \
 		$(ARMv6_OBJDRIVERS)/uart/pl011.o $(ARMv6_OBJDRIVERS)/uart/mini.o $(ARMv6_OBJDRIVERS)/uart/uart.o \
 		$(ARMv6_OBJDRIVERS)/etc/delay.o $(ARMv6_OBJDRIVERS)/etc/math.o $(ARMv6_OBJDRIVERS)/etc/string.o \

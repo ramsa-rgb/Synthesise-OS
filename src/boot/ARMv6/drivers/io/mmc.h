@@ -33,7 +33,7 @@
 #define SLOTISR_VER 0xfc
 
 // 0~3 CID 4 RCA
-unsigned int* emmc_init();
-unsigned int* emmc_read(unsigned int Sector);
+unsigned int* mmc_init();
+unsigned int* mmc_read(unsigned int Sector);
 
 #endif

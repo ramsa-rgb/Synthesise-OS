@@ -1,7 +1,7 @@
 #include "drivers/memory/mmu.h"
 #include "drivers/memory/memory.h"
 #include "drivers/io/gpio.h"
-#include "drivers/io/emmc.h"
+#include "drivers/io/mmc.h"
 #include "drivers/uart/uart.h"
 #include "drivers/etc/string.h"
 
@@ -73,7 +73,7 @@ void main() {
     string* str4 = createstring(Text4);
 
     uart_init();
-    unsigned int* List = emmc_init();
+    unsigned int* List = mmc_init();
 
     print_str(Heap1);
     print_c('\r'); 
@@ -100,7 +100,7 @@ void main() {
     print_c('\r'); 
     print_c('\n');
 
-    emmc_read(35704);
+    mmc_read(35704);
 
     gpiomode(4, OUTPUT);
     gpiomode(17, OUTPUT);

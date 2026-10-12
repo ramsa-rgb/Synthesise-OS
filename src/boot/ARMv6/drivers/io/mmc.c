@@ -1,10 +1,10 @@
-#include "emmc.h"
+#include "mmc.h"
 #include "gpio.h"
 #include "..\memory\memory.h"
 #include "..\uart\uart.h"
 #include "..\etc\delay.h"
 
-unsigned int* emmc_init() {
+unsigned int* mmc_init() {
     gpiomode(48, ALT3);
     gpiomode(49, ALT3);
     gpiomode(50, ALT3);
@@ -109,7 +109,7 @@ unsigned int* emmc_init() {
     return List;
 }
 
-unsigned int* emmc_read(unsigned int Sector) {
+unsigned int* mmc_read(unsigned int Sector) {
     mem32write(EMMC_BASE + INTERRUPT, 0xFFFFFFFF);
 
     mem32write(EMMC_BASE + BLKSIZECNT, 512 | 1 << 16); // 블록 크기를 512bytes로
