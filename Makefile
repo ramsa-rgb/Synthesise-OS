@@ -4,7 +4,7 @@ ARMv6_SRCDRIVERS = src/boot/ARMv6/drivers
 ARMv6_OBJDRIVERS = obj/boot/ARMv6/drivers
 
 ARMv6 : ARMv6_INIT ARMv6_BOOT
-	copy sdcard\*.* F:
+    #copy sdcard\*.* F:
 
 ifeq ("$(wildcard obj/boot)", "")
 ifeq ($(OS), Windows_NT)
@@ -58,8 +58,7 @@ ARMv6_BOOT :
 		$(ARMv6_OBJDRIVERS)/memory/memory.o $(ARMv6_OBJDRIVERS)/memory/mmu.o \
 		$(ARMv6_OBJDRIVERS)/uart/pl011.o $(ARMv6_OBJDRIVERS)/uart/mini.o $(ARMv6_OBJDRIVERS)/uart/uart.o \
 		$(ARMv6_OBJDRIVERS)/etc/delay.o $(ARMv6_OBJDRIVERS)/etc/math.o $(ARMv6_OBJDRIVERS)/etc/string.o \
-		-o obj/boot/ARMv6/SBOOT.img -lgcc
-	copy obj\boot\ARMv6\SBOOT.img sdcard /y
+		-o sdcard/SBOOT.img -lgcc
 
 ifeq ($(OS), Windows_NT)
 clean:
