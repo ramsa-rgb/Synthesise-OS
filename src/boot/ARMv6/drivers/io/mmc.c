@@ -1,8 +1,8 @@
 #include "mmc.h"
 #include "gpio.h"
-#include "..\memory\memory.h"
-#include "..\uart\uart.h"
-#include "..\etc\delay.h"
+#include "../memory/memory.h"
+#include "../uart/uart.h"
+#include "../etc/delay.h"
 
 unsigned int* mmc_init() {
     gpiomode(48, ALT3);

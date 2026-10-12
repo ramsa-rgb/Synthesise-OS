@@ -1,7 +1,7 @@
 #ifndef GPIO_H
 #define GPIO_H
 
-#include "..\memory\memory.h"
+#include "../memory/memory.h"
 
 #define GPFSEL0 0x7e200000 - MEMOFFSET
 #define GPFSEL1 0x7e200004 - MEMOFFSET

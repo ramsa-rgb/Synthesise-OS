@@ -1,5 +1,5 @@
 #include "gpio.h"
-#include "..\etc\delay.h"
+#include "../etc/delay.h"
 
 void gpiomode(unsigned int gpio, unsigned int mode) {
     unsigned int base = 0;

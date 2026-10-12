@@ -1,7 +1,7 @@
 #ifndef UART_H
 #define UART_H
 
-#include "..\memory\memory.h"
+#include "../memory/memory.h"
 
 void uart_init();
 

@@ -1,5 +1,5 @@
 #include "pl011.h"
-#include "..\etc\delay.h"
+#include "../etc/delay.h"
 
 void pl011init() {
     mem32write(PL011_BASE + CR, 0);

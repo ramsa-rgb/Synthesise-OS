@@ -1,5 +1,5 @@
 #include "memory.h"
-#include "..\uart\uart.h"
+#include "../uart/uart.h"
 
 unsigned int mem32read(unsigned int Address) {
     return *(volatile unsigned int*)Address;

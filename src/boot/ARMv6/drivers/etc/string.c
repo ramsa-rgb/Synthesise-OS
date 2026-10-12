@@ -1,6 +1,6 @@
 #include "string.h"
 #include "math.h"
-#include "..\memory\memory.h"
+#include "../memory/memory.h"
 
 // String는 항상 kmalloc된 상태 이어야 합니다.
 string* createstring(char* String) {

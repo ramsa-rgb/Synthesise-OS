@@ -6,9 +6,8 @@ ARMv6_OBJDRIVERS = obj/boot/ARMv6/drivers
 ARMv6 : ARMv6_INIT ARMv6_BOOT
 	copy sdcard\*.* F:
 
-ifeq ("$(wildcard $(obj\boot))", "")
-ARMv6_INIT : 
-else
+ifeq ("$(wildcard obj/boot)", "")
+ifeq ($(OS), Windows_NT)
 ARMv6_INIT : 
 	-mkdir bin
 	-mkdir sdcard
@@ -24,6 +23,25 @@ ARMv6_INIT :
 	-mkdir obj\boot\ARMv6\drivers\memory
 	-mkdir obj\boot\ARMv6\drivers\uart
 	-mkdir obj\boot\ARMv6\drivers\etc
+else
+ARMv6_INIT :
+	-mkdir bin
+	-mkdir sdcard
+	-mkdir sdcard/overlays
+
+	-mkdir obj/boot
+	-mkdir obj/boot/ARMv6
+	-mkdir obj/boot/ARMv6/x86
+	-mkdir obj/boot/ARMv6/x86_64
+
+	-mkdir obj/boot/ARMv6/drivers
+	-mkdir obj/boot/ARMv6/drivers/io
+	-mkdir obj/boot/ARMv6/drivers/memory
+	-mkdir obj/boot/ARMv6/drivers/uart
+	-mkdir obj/boot/ARMv6/drivers/etc
+endif
+else
+ARMv6_INIT : 
 endif
 
 ARMv6_BOOT :
@@ -41,9 +59,20 @@ ARMv6_BOOT :
 		-o obj/boot/ARMv6/SBOOT.img -lgcc
 	copy obj\boot\ARMv6\SBOOT.img sdcard /y
 
+ifeq ($(OS), Windows_NT)
 clean:
 	del obj\boot\ARMv6\*.* /F /Q
 	del obj\boot\ARMv6\drivers\*.* /F /Q
 	del obj\boot\ARMv6\drivers\io\*.* /F /Q
 	del obj\boot\ARMv6\drivers\memory\*.* /F /Q
 	del obj\boot\ARMv6\drivers\uart\*.* /F /Q
+	del obj\boot\ARMv6\drivers\etc\*.* /F /Q
+else
+clean:
+	rm --force obj\boot\ARMv6\*.*
+	rm --force obj\boot\ARMv6\drivers\*.*
+	rm --force obj\boot\ARMv6\drivers\io\*.*
+	rm --force obj\boot\ARMv6\drivers\memory\*.*
+	rm --force obj\boot\ARMv6\drivers\uart\*.*
+	rm --force obj\boot\ARMv6\drivers\etc\*.*
+endif

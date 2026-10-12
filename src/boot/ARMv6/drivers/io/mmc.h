@@ -1,7 +1,7 @@
 #ifndef EMMC_H
 #define EMMC_H
 
-#include "..\memory\memory.h"
+#include "../memory/memory.h"
 
 #define EMMC_BASE 0x7E300000 - MEMOFFSET
 

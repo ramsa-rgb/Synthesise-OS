@@ -1,7 +1,7 @@
 #ifndef MINI_H
 #define MINI_H
 
-#include "..\memory\memory.h"
+#include "../memory/memory.h"
 
 #define AUX_ENABLES 0x7E215004 - MEMOFFSET
 #define AUX_MU_IO_REG 0x7E215040 - MEMOFFSET

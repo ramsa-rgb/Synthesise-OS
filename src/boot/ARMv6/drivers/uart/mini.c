@@ -1,5 +1,5 @@
 #include "mini.h"
-#include "..\memory\memory.h"
+#include "../memory/memory.h"
 
 void miniinit() {
     mem32write(AUX_ENABLES, 1);
