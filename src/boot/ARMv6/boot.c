@@ -109,7 +109,7 @@ void main() {
     gpioenable(4);
     //gpioenable(17);
 
-    for (int i = 0; i<50000; i++);
+    for (int i = 0; i<49999; i++);
 
     if (gpioread(27) == ENABLE) {
         gpioenable(17);
