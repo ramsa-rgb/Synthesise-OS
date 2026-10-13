@@ -17,8 +17,8 @@ jobs:
     - name: Install dependencies
       run: sudo apt update -y && sudo apt install gcc-arm-none-eabi -y
 
-    - name: Build
-      run: make
+    - name: Build ARMv6 (BCM2835)
+      run: make ARMv6
 
     - name: Clean
       run: make clean
