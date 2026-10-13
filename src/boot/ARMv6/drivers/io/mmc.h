@@ -1,9 +1,9 @@
-#ifndef EMMC_H
-#define EMMC_H
+#ifndef MMC_H
+#define MMC_H
 
 #include "../memory/memory.h"
 
-#define EMMC_BASE 0x7E300000 - MEMOFFSET
+#define MMC_BASE 0x7E300000 - MEMOFFSET
 
 #define ARG2 0x0
 #define BLKSIZECNT 0x4
@@ -34,6 +34,6 @@
 
 // 0~3 CID 4 RCA
 unsigned int* mmc_init();
-unsigned int* mmc_read(unsigned int Sector);
+unsigned int* mmc_read(unsigned int RCA, unsigned int Sector);
 
 #endif

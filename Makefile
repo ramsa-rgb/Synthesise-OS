@@ -3,8 +3,12 @@ all : ARMv6
 ARMv6_SRCDRIVERS = src/boot/ARMv6/drivers
 ARMv6_OBJDRIVERS = obj/boot/ARMv6/drivers
 
+ifeq ($(OS), Windows_NT)
 ARMv6 : ARMv6_INIT ARMv6_BOOT
-    #copy sdcard\*.* F:
+	copy "sdcard\*.*" F:\ /Y
+else
+ARMv6 : ARMv6_INIT ARMv6_BOOT
+endif
 
 ifeq ("$(wildcard obj/boot)", "")
 ifeq ($(OS), Windows_NT)

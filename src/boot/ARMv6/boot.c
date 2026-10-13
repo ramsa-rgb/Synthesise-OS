@@ -100,7 +100,8 @@ void main() {
     print_c('\r'); 
     print_c('\n');
 
-    mmc_read(35704);
+    char* config = (char*)mmc_read(List[4], 35704);
+    print_str(config);
 
     gpiomode(4, OUTPUT);
     gpiomode(17, OUTPUT);
