@@ -15,7 +15,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Install dependencies
-      run: sudo apt update -y && sudo apt install gcc-arm-none-eabi nasm xorriso-y
+      run: sudo apt update -y && sudo apt install gcc-arm-none-eabi nasm xorriso -y
 
     - name: Build ARMv6 (BCM2835)
       run: make ARMv6
