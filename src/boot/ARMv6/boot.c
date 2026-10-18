@@ -100,8 +100,55 @@ void main() {
     print_c('\r'); 
     print_c('\n');
 
-    char* config = (char*)mmc_read(List[4], 35704);
+    char* config = (char*)mmc_read(List[4], 0);
     print_str(config);
+
+    /*int* a = kmalloc(20);
+    int* b = kmalloc(20);
+    
+    a[0] = 1;
+    a[1] = 2;
+    a[2] = 3;
+    a[3] = 4;
+    a[4] = 5;
+
+    b[0] = 1;
+    b[1] = 3;
+    b[2] = 5;
+    b[3] = 7;
+    b[4] = 9;
+
+    for (int i = 0; i<5; i++) {
+        if (b[2] == a[i]) {
+            print_c('1');
+        } else if (b[2] > a[i]) {
+            int s = 0;
+            for (int n = 3; n<5; n++) {
+                if (b[n] == a[i]) {
+                    s = 1;
+                    break;
+                }
+            }
+            if (s == 1) {
+                print_c('1');
+            } else {
+                print_c('0');
+            }
+        } else if (b[2] < a[1]) {
+            int s = 0;
+            for (int n = 1; n>-1; n--) {
+                if (b[n] == a[i]) {
+                    s = 1;
+                    break;
+                }
+            }
+            if (s == 1) {
+                print_c('1');
+            } else {
+                print_c('0');
+            }
+        }
+    }*/
 
     gpiomode(4, OUTPUT);
     gpiomode(17, OUTPUT);
