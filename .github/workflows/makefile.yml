@@ -20,7 +20,7 @@ jobs:
     - name: Build ARMv6 (BCM2835)
       run: make ARMv6
 
-    - name: Build x86 ()
+    - name: Build x86
       run: make X86
 
     - name: Clean
