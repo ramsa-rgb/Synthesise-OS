@@ -61,9 +61,6 @@ ARMv6_BOOT :
 		-o sdcard/SBOOT.img -lgcc
 
 
-
-
-
 X86 : X86_INIT X86_BOOT
 	xorriso -as mkisofs -o "bin/Synthesise OS.iso" -iso-level 4 -r -J -eltorito-alt-boot -b boot/bios/boot -no-emul-boot -boot-load-size 8 -boot-info-table iso/
 
@@ -82,8 +79,6 @@ endif
 X86_BOOT:
     # BIOS
 	nasm -f bin src/boot/x86/bios/main.s -o iso/boot/bios/boot
-
-
 
 
 ifeq ($(OS), Windows_NT)
